@@ -35,6 +35,9 @@ public class EduTeacher implements Serializable {
     @ApiModelProperty(value = "讲师姓名")
     private String name;
 
+    @ApiModelProperty(value = "讲师属地")
+    private String location;
+
     @ApiModelProperty(value = "讲师简介")
     private String intro;
 

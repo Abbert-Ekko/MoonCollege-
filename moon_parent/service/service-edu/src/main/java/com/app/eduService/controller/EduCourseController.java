@@ -1,12 +1,17 @@
 package com.app.eduService.controller;
 
 
+import com.app.eduService.entity.EduCourse;
 import com.app.eduService.entity.vo.CourseInfoVo;
 import com.app.eduService.entity.vo.CoursePublishVo;
+import com.app.eduService.mapper.EduCourseMapper;
 import com.app.eduService.service.EduCourseService;
 import com.app.eduService.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -22,6 +27,17 @@ import org.springframework.web.bind.annotation.*;
 public class EduCourseController {
     @Autowired
     private EduCourseService courseService;
+
+    @Autowired(required = false)
+    private EduCourseMapper eduCourseMapper;
+
+    //课程列表 基本实现
+    //TODO  完善条件查询带分页
+    @GetMapping
+    public R getCourseList() {
+        ArrayList<CoursePublishVo> list = eduCourseMapper.getCourseInfoList();
+        return R.success().data(list);
+    }
 
     @PostMapping("addCourse")
     public R addCourseInfo(@RequestBody CourseInfoVo courseInfoVo){
@@ -49,6 +65,25 @@ public class EduCourseController {
         CoursePublishVo coursePublishVo = courseService.publishCourseInfo(id);
         return R.success().data(coursePublishVo);
     }
+
+    //课程最终发布
+    //修改课程状态
+    @PostMapping("publishCourse/{id}")
+    public R publishCourse(@PathVariable String id) {
+        EduCourse eduCourse = new EduCourse();
+        eduCourse.setId(id);
+        eduCourse.setStatus("Normal");//设置课程发布状态
+        courseService.updateById(eduCourse);
+        return R.success();
+    }
+
+    //删除课程
+    @DeleteMapping("{courseId}")
+    public R deleteCourse(@PathVariable String courseId) {
+        courseService.removeCourse(courseId);
+        return R.success();
+    }
+
 
 }
 
