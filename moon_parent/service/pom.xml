@@ -14,7 +14,16 @@
     <modules>
         <module>service-oss</module>
         <module>service-edu</module>
+        <module>service_video</module>
     </modules>
+    <dependencies>
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>3.1.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
     <build>
         <resources>
             <resource>
